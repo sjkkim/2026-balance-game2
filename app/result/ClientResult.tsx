@@ -64,10 +64,41 @@ export default function ClientResult({ type }: Props) {
     }
   };
 
-  const handleShare = async () => {
-    const url = window.location.href;
-    const text = `${result.emoji} 나의 2026년 성향은 "${result.name}"!\n\n"${result.catchphrase}"\n\n너의 2026년은 어떤 타입일까? 👀`;
+  // const handleShare = async () => {
+  //   const url = window.location.href;
+  //   const text = `${result.emoji} 나의 2026년 성향은 "${result.name}"!\n\n"${result.catchphrase}"\n\n너의 2026년은 어떤 타입일까? 👀`;
 
+  //   if (navigator.share) {
+  //     try {
+  //       await navigator.share({
+  //         title: "2026 신년 밸런스 게임",
+  //         text,
+  //         url,
+  //       });
+  //       return;
+  //     } catch (err) {
+  //       // 공유 취소 → 아래 복사 fallback
+  //     }
+  //   }
+
+  //   try {
+  //     await navigator.clipboard.writeText(`${text}\n${url}`);
+  //     setShowCopied(true);
+  //     setTimeout(() => setShowCopied(false), 2000);
+  //   } catch (err) {
+  //     console.error("Failed to copy:", err);
+  //   }
+  // };
+
+  // 공통으로 사용할 handleShare 함수
+  const handleShare = async () => {
+    // 첫 페이지 URL
+    const url = window.location.origin;
+
+    // 공유 텍스트
+    const text = `2026 신년 밸런스 게임! 너의 2026년은 어떤 타입일까? 👀`;
+
+    // 네이티브 공유 API 지원 시
     if (navigator.share) {
       try {
         await navigator.share({
@@ -76,11 +107,12 @@ export default function ClientResult({ type }: Props) {
           url,
         });
         return;
-      } catch (err) {
+      } catch {
         // 공유 취소 → 아래 복사 fallback
       }
     }
 
+    // 클립보드 복사 fallback
     try {
       await navigator.clipboard.writeText(`${text}\n${url}`);
       setShowCopied(true);
@@ -89,6 +121,7 @@ export default function ClientResult({ type }: Props) {
       console.error("Failed to copy:", err);
     }
   };
+
 
   const handleRestart = () => {
     router.push("/"); // 질문 페이지로 이동
@@ -192,7 +225,7 @@ export default function ClientResult({ type }: Props) {
               📸 결과 이미지 저장
             </button>
 
-            <Button onClick={handleShare} size="lg" className="px-8 text-lg">
+            {/* <Button onClick={handleShare} size="lg" className="px-8 text-lg">
               {showCopied ? (
                 <>
                   <LinkIcon className="mr-2" size={20} />
@@ -202,16 +235,26 @@ export default function ClientResult({ type }: Props) {
                 <>
                   <Share2 className="mr-2" size={20} />
                   🔗 결과 공유하기
-                </>
+                </>ㄹ
               )}
+            </Button> */}
+            <Button
+            onClick={handleShare}
+            size="lg"
+            className="px-8 text-lg bg-primary hover:bg-primary/90 text-primary-foreground font-medium shadow-md hover:shadow-lg transition-all"
+            style={{ backgroundColor: "lab(88 -5.47 -5.21)" }}
+          >
+            🔗 공유하기
             </Button>
+
 
             <Button
               onClick={handleRestart}
               size="lg"
               className="px-8 text-lg bg-primary hover:bg-primary/90 text-primary-foreground font-medium shadow-md hover:shadow-lg transition-all"
+              style={{ backgroundColor: "lab(88 -5.47 -5.21)" }}
             >
-              <Sparkles className="mr-2" size={20} />
+              <Sparkles className="mr-2"  />
               다시 하기
             </Button>
           </div>

@@ -163,23 +163,26 @@ const questions: Question[] = [
 // }
 
 // 공유용 메시지 생성
-export const createShareMessage = (
-  type: PersonalityType,
-  baseUrl: string
-) => {
-  const result = personalityResults[type];
+// export const createShareMessage = (
+//   type: PersonalityType,
+//   baseUrl: string
+// ) => {
+//   const result = personalityResults[type];
 
-  return {
-    title: `2026 밸런스 게임 · ${result.name}`,
-    text: `${result.emoji} ${result.catchphrase}
+//   return {
+//     title: `2026 밸런스 게임 · ${result.name}`,
+//     text: `${result.emoji} ${result.catchphrase}
 
-${result.yearPreview}
+// ${result.yearPreview}
 
-너의 2026년 타입은?
-👉`,
-    url: `${baseUrl}/result?type=${type}`,
-  };
-};
+// 너의 2026년 타입은?
+// 👉`,
+//     url: `${baseUrl}/result?type=${type}`,
+//   };
+// };
+
+
+
 
 // export const metadata = {
 //   title: "2026 밸런스 게임",
@@ -314,20 +317,51 @@ export default function NewYearBalanceGame() {
     setShowCopied(false)
   }
 
+  // const handleShare = async () => {
+  //   if (!isComplete) return;
+  
+  //   const type = calculateResult(); // stable | challenge | ...
+  //   const result = personalityResults[type];
+  
+  //   const url = window.location.href;
+  
+  //   const text = `${result.emoji} 나의 2026년 성향은 "${result.name}"!
+  
+  // "${result.catchphrase}"
+  
+  // 너의 2026년은 어떤 타입일까? 👀`;
+  
+  //   if (navigator.share) {
+  //     try {
+  //       await navigator.share({
+  //         title: "2026 신년 밸런스 게임",
+  //         text,
+  //         url,
+  //       });
+  //       return;
+  //     } catch (err) {
+  //       // 공유 취소 → 아래 복사 fallback
+  //     }
+  //   }
+  
+  //   try {
+  //     await navigator.clipboard.writeText(`${text}\n${url}`);
+  //     setShowCopied(true);
+  //     setTimeout(() => setShowCopied(false), 2000);
+  //   } catch (err) {
+  //     console.error("Failed to copy:", err);
+  //   }
+  // };
+
+  // 공통으로 사용할 handleShare 함수
   const handleShare = async () => {
-    if (!isComplete) return;
-  
-    const type = calculateResult(); // stable | challenge | ...
-    const result = personalityResults[type];
-  
-    const url = window.location.href;
-  
-    const text = `${result.emoji} 나의 2026년 성향은 "${result.name}"!
-  
-  "${result.catchphrase}"
-  
-  너의 2026년은 어떤 타입일까? 👀`;
-  
+    // 첫 페이지 URL
+    const url = window.location.origin;
+
+    // 공유 텍스트
+    const text = `2026 신년 밸런스 게임! 너의 2026년은 어떤 타입일까? 👀`;
+
+    // 네이티브 공유 API 지원 시
     if (navigator.share) {
       try {
         await navigator.share({
@@ -336,11 +370,12 @@ export default function NewYearBalanceGame() {
           url,
         });
         return;
-      } catch (err) {
+      } catch {
         // 공유 취소 → 아래 복사 fallback
       }
     }
-  
+
+    // 클립보드 복사 fallback
     try {
       await navigator.clipboard.writeText(`${text}\n${url}`);
       setShowCopied(true);
@@ -349,6 +384,7 @@ export default function NewYearBalanceGame() {
       console.error("Failed to copy:", err);
     }
   };
+
   
 
   // 인스타 진입 감지
@@ -362,13 +398,13 @@ export default function NewYearBalanceGame() {
         <div className="space-y-8">
           <div className="text-center space-y-3">
             <div className="flex items-center justify-center gap-2 mb-4">
-              <Sparkles className="text-primary" size={32} />
-              <h1 className="text-4xl md:text-5xl font-bold text-primary">2026</h1>
-              <Sparkles className="text-primary" size={32} />
+              <Sparkles className="text-primary" size={16} />
+              <h1 className="text-4xl md:text-5xl font-bold text-primary opacity-60 text-sm">2026</h1>
+              <Sparkles className="text-primary" size={16} />
             </div>
-            <h2 className="text-2xl md:text-3xl font-semibold text-balance text-foreground">
-              신년 밸런스 게임
-            </h2>
+            <h3 className="text-2xl md:text-3xl font-semibold text-balance text-foreground">
+            2026 성향 밸런스 게임
+            </h3>
             {/* <p className="text-muted-foreground text-pretty">
               새해를 맞아 가볍게 즐기는 밸런스 게임
             </p> */}
@@ -377,8 +413,8 @@ export default function NewYearBalanceGame() {
           {/* 진행률 */}
           <div className="space-y-3">
         <div className="flex justify-between text-xs text-muted-foreground font-semibold uppercase tracking-wider">
-          <span>Lv.{currentQuestionIndex + 1} 진행 중</span>
-          <span>{Math.round(progress)}%</span>
+          {/* <span>Lv.{currentQuestionIndex + 1} 진행 중</span> */}
+          {/* <span>{Math.round(progress)}%</span> */}
         </div>
         <div className="h-2 bg-secondary rounded-full overflow-hidden">
           <div
@@ -401,7 +437,7 @@ export default function NewYearBalanceGame() {
   <Button
     onClick={() => handleChoice("A")}
     size="lg"
-    className=" h-auto py-10 text-xl font-medium
+    className=" h-auto py-10 text-base font-medium font-semibold
     hover:scale-[1.05] active:scale-[0.95]
     transition-all duration-200
     text-slate-700
@@ -418,7 +454,7 @@ export default function NewYearBalanceGame() {
   <Button
     onClick={() => handleChoice("B")}
     size="lg"
-    className="h-auto py-10 text-xl font-medium
+    className="h-auto py-10 text-base font-medium font-semibold
     hover:scale-[1.05] active:scale-[0.95]
     transition-all duration-200
     text-slate-700
