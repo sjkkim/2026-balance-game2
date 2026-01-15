@@ -192,7 +192,7 @@ export default function ClientResult({ type }: Props) {
               📸 결과 이미지 저장
             </button>
 
-            <Button onclick = {createShareMessage}size="lg" className="px-8 text-lg">
+            <Button size="lg" className="px-8 text-lg">
               {showCopied ? (
                 <>
                   <LinkIcon className="mr-2" size={20} />
@@ -200,7 +200,7 @@ export default function ClientResult({ type }: Props) {
                 </>
               ) : (
                 <>
-                  <Share2  className="mr-2" size={20} />
+                  <Share2 className="mr-2" size={20} />
                   🔗 결과 공유하기
                 </>
               )}
