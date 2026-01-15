@@ -192,7 +192,7 @@ export default function ClientResult({ type }: Props) {
               📸 결과 이미지 저장
             </button>
 
-            <Button size="lg" className="px-8 text-lg">
+            <Button onClick={handleShare} size="lg" className="px-8 text-lg">
               {showCopied ? (
                 <>
                   <LinkIcon className="mr-2" size={20} />
