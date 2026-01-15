@@ -317,51 +317,18 @@ export default function NewYearBalanceGame() {
     setShowCopied(false)
   }
 
-  // const handleShare = async () => {
-  //   if (!isComplete) return;
-  
-  //   const type = calculateResult(); // stable | challenge | ...
-  //   const result = personalityResults[type];
-  
-  //   const url = window.location.href;
-  
-  //   const text = `${result.emoji} 나의 2026년 성향은 "${result.name}"!
-  
-  // "${result.catchphrase}"
-  
-  // 너의 2026년은 어떤 타입일까? 👀`;
-  
-  //   if (navigator.share) {
-  //     try {
-  //       await navigator.share({
-  //         title: "2026 신년 밸런스 게임",
-  //         text,
-  //         url,
-  //       });
-  //       return;
-  //     } catch (err) {
-  //       // 공유 취소 → 아래 복사 fallback
-  //     }
-  //   }
-  
-  //   try {
-  //     await navigator.clipboard.writeText(`${text}\n${url}`);
-  //     setShowCopied(true);
-  //     setTimeout(() => setShowCopied(false), 2000);
-  //   } catch (err) {
-  //     console.error("Failed to copy:", err);
-  //   }
-  // };
-
-  // 공통으로 사용할 handleShare 함수
   const handleShare = async () => {
-    // 첫 페이지 URL
-    const url = window.location.origin;
-
-    // 공유 텍스트
-    const text = `2026 신년 밸런스 게임! 너의 2026년은 어떤 타입일까? 👀`;
-
-    // 네이티브 공유 API 지원 시
+    if (!isComplete) return;
+  
+    const type = calculateResult(); 
+    const result = personalityResults[type];
+  
+    const url = window.location.href;
+  
+    const text = `${result.emoji} 나의 2026년 성향은 "${result.name}"!
+  "${result.catchphrase}"
+  너의 2026년은 어떤 타입일까? 👀`;
+  
     if (navigator.share) {
       try {
         await navigator.share({
@@ -370,12 +337,11 @@ export default function NewYearBalanceGame() {
           url,
         });
         return;
-      } catch {
+      } catch (err) {
         // 공유 취소 → 아래 복사 fallback
       }
     }
-
-    // 클립보드 복사 fallback
+  
     try {
       await navigator.clipboard.writeText(`${text}\n${url}`);
       setShowCopied(true);
@@ -384,6 +350,38 @@ export default function NewYearBalanceGame() {
       console.error("Failed to copy:", err);
     }
   };
+
+  // 공통으로 사용할 handleShare 함수
+  // const handleShare = async () => {
+  //   // 첫 페이지 URL
+  //   const url = window.location.origin;
+
+  //   // 공유 텍스트
+  //   const text = `2026 신년 밸런스 게임! 너의 2026년은 어떤 타입일까? 👀`;
+
+  //   // 네이티브 공유 API 지원 시
+  //   if (navigator.share) {
+  //     try {
+  //       await navigator.share({
+  //         title: "2026 신년 밸런스 게임",
+  //         text,
+  //         url,
+  //       });
+  //       return;
+  //     } catch {
+  //       // 공유 취소 → 아래 복사 fallback
+  //     }
+  //   }
+
+  //   // 클립보드 복사 fallback
+  //   try {
+  //     await navigator.clipboard.writeText(`${text}\n${url}`);
+  //     setShowCopied(true);
+  //     setTimeout(() => setShowCopied(false), 2000);
+  //   } catch (err) {
+  //     console.error("Failed to copy:", err);
+  //   }
+  // };
 
   
 
@@ -447,7 +445,7 @@ export default function NewYearBalanceGame() {
   >
     {currentQuestion.optionA.text}
   </Button>
-  <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-white px-2 py-1 rounded-full text-xs font-black text-slate-300 z-10 hidden md:block">
+  <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-white px-2 py-1 rounded-full text-xs font-black text-slate-300 z-10 md:block">
     VS
   </div>
   {/* 선택지 B: 따뜻한 베이지 */}

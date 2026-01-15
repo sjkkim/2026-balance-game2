@@ -15,21 +15,20 @@ export async function generateMetadata({ searchParams }: Props) {
 
   return {
     title: `2026 밸런스 게임 | ${result.name}`,
-    description: result.catchphrase,
+    description: `당신의 선택으로 완성된 2026년의 성향`,
     openGraph: {
-      title: `2026년 성향: ${result.name}`,
-      description: result.catchphrase,
+      title: `2026년 나의 성향은?`,
+      description: `${result.name} · ${result.catchphrase}`,
       images: [
         {
-          // ✅ 확장자 반드시 포함
-          url: `/og/${type}.png`,
+          url: `/og/main.png`,
           width: 1200,
           height: 630,
-          alt: `${result.name} 이미지`,
+          alt: `2026 성향 밸런스 게임 - ${result.name}`,
         },
       ],
     },
-  };
+  };  
 }
 
 export default async function Page({ searchParams }: Props) {

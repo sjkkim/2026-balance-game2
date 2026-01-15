@@ -25,3 +25,10 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+
+# images
+public/og/
+
+# 특정 확장자만 제외
+*.png
