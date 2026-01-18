@@ -23,7 +23,7 @@ export async function generateMetadata({ searchParams }: Props) {
       description: `${result.name} · ${result.catchphrase}`,
       images: [
         {
-          url: `${baseUrl}/og/main_2026.png`,
+          url: `${baseUrl}/og/main_2026.png?v=20260118`,
           width: 1200,
           height: 630,
           alt: `2026 성향 밸런스 게임`,
