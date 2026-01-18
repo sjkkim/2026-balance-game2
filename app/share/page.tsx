@@ -1,8 +1,9 @@
-// app/result/page.tsx
+// app/share/page.tsx
 import ClientResult from "./ClientResult";
 import { personalityResults, PersonalityType } from "@/lib/personalityResults";
 
-const baseUrl = process.env.NEXT_PUBLIC_SITE_URL;
+const baseUrl =
+  process.env.NEXT_PUBLIC_SITE_URL ?? "https://2026-balance-game2.vercel.app";
 
 type Props = {
   searchParams: Promise<{

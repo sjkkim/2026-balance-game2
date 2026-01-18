@@ -67,10 +67,10 @@ export default function ClientResult({ type }: Props) {
   const handleShare = async () => {
     const origin = window.location.origin;
   
-    // ✅ 공유 전용 페이지
-    const shareUrl = `${origin}/share/result?type=${type}`;
+    // ✅ 공유 전용 페이지로 보냄
+    const shareUrl = `${origin}/share?type=${type}`;
   
-    const text = `${result.emoji} 나의 2026년 성향은 "${result.name}"!\n"${result.catchphrase}"\n너의 2026년은 어떤 타입일까? 👀`;
+    const text = `${result.emoji} 나의 2026년 성향은 "${result.name}"!\n${result.catchphrase}"\n너의 2026년은 어떤 타입일까? 👀`;
   
     if (navigator.share) {
       try {
@@ -80,8 +80,8 @@ export default function ClientResult({ type }: Props) {
           url: shareUrl,
         });
         return;
-      } catch (err) {
-        // 공유 취소 → fallback
+      } catch {
+        // 공유 취소
       }
     }
   
